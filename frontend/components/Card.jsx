@@ -1,9 +1,6 @@
-export default function Card({
-  title,
-  description
-}) {
+export default function Card({ title, description }) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6">
+    <div className="border rounded-lg p-4 shadow">
       <h2 className="text-xl font-semibold">
         {title}
       </h2>
