@@ -1,19 +1,31 @@
 /**
  * Props:
- * placeholder: string
- * value: string
- * onChange: function
+ * placeholder
+ * value
+ * onChange
+ * type
  */
-export default function Input(props) {
+import styles from "./Input.module.css";
+
+export default function Input({
+  type = "text",
+  placeholder,
+  value,
+  onChange,
+  name,
+  id,
+  required = false,
+}) {
   return (
     <input
-      {...props}
-      style={{
-        padding: "10px",
-        width: "300px",
-        borderRadius: "8px",
-        border: "1px solid #ccc",
-      }}
+      className={styles.input}
+      type={type}
+      placeholder={placeholder}
+      value={value}
+      onChange={onChange}
+      name={name}
+      id={id}
+      required={required}
     />
   );
 }

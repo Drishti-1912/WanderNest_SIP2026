@@ -1,0 +1,30 @@
+.toggle {
+  width: 45px;
+  height: 45px;
+
+  border: 1px solid var(--border);
+  border-radius: 50%;
+
+  background: var(--surface);
+  color: var(--text);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  cursor: pointer;
+
+  box-shadow: var(--shadow);
+
+  transition: all 0.3s ease;
+}
+
+.toggle:hover {
+  background: var(--primary);
+  color: white;
+  transform: rotate(20deg) scale(1.05);
+}
+
+.toggle:active {
+  transform: scale(0.95);
+}

@@ -1,0 +1,38 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 40px;
+}
+
+.greeting {
+  color: var(--text-light);
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.header h1 {
+  color: var(--text);
+  font-size: 48px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.header span {
+  color: var(--text-light);
+  font-size: 18px;
+}
+
+.avatar {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: var(--primary);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 26px;
+  font-weight: bold;
+  box-shadow: var(--shadow);
+}

@@ -15,6 +15,35 @@
 
 ---
 
-## 🚀 Setup
+# WanderNest Backend
 
-Coming soon.
+## Install
+
+```bash
+npm install
+```
+
+## Start Backend
+
+```bash
+npm run dev
+```
+
+Runs at
+
+http://localhost:5000
+
+Available APIs
+
+GET /api/homestays
+
+GET /api/homestays/:id
+
+POST /api/homestays
+
+PUT /api/homestays/:id
+
+DELETE /api/homestays/:id
+
+GET /api/homestays/search?location=Kasol
+

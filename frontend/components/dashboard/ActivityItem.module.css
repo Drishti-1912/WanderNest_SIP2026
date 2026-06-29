@@ -1,0 +1,40 @@
+.item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 22px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.item:last-child {
+  border-bottom: none;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: var(--primary);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 22px;
+}
+
+.item h3 {
+  color: var(--text);
+  margin: 0;
+  font-size: 20px;
+}
+
+.item span {
+  color: var(--text-light);
+}

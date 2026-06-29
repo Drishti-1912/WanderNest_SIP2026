@@ -2,17 +2,21 @@
  * Props:
  * text: string
  * onClick: function
+ * type: button | submit
+ * width: string
  */
-export default function Button({ text }) {
+import styles from "./Button.module.css";
+
+export default function Button({
+  text,
+  onClick,
+  type = "button",
+}) {
   return (
     <button
-      style={{
-        background: "#d6a29a",
-        color: "white",
-        padding: "12px 24px",
-        borderRadius: "8px",
-        border: "none",
-      }}
+      type={type}
+      onClick={onClick}
+      className={styles.button}
     >
       {text}
     </button>
