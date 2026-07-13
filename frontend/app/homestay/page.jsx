@@ -7,20 +7,63 @@ import Topbar from "../../components/layout/Topbar";
 
 import styles from "./page.module.css";
 
-import { getHomestays } from "../../services/api";
+import {
+  getHomestays,
+  addHomestay,
+  updateHomestay,
+  deleteHomestay,
+} from "../../services/api";
 
 export default function Homestay() {
-
   const [homestays, setHomestays] = useState([]);
 
+  const [form, setForm] = useState({
+    name: "",
+    location: "",
+    price: "",
+    rating: "",
+    image: "",
+  });
+
+  const fetchHomestays = async () => {
+    const data = await getHomestays();
+    setHomestays(data);
+  };
+
   useEffect(() => {
-    async function fetchHomestays() {
-      const data = await getHomestays();
-      setHomestays(data);
-    }
+  const loadData = async () => {
+    await fetchHomestays();
+  };
+
+  loadData();
+}, []);
+
+  const handleChange = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    await addHomestay({
+      ...form,
+      price: Number(form.price),
+      rating: Number(form.rating),
+    });
+
+    setForm({
+      name: "",
+      location: "",
+      price: "",
+      rating: "",
+      image: "",
+    });
 
     fetchHomestays();
-  }, []);
+  };
 
   return (
     <div className={styles.layout}>
@@ -31,11 +74,58 @@ export default function Homestay() {
 
         <div className={styles.header}>
           <h1>🏡 Explore Homestays</h1>
-
           <p>
             Discover hand-picked eco-friendly stays recommended for your trip.
           </p>
         </div>
+
+        {/* Add Homestay Form */}
+        <form onSubmit={handleSubmit} style={{ marginBottom: "30px" }}>
+          <input
+            type="text"
+            name="name"
+            placeholder="Name"
+            value={form.name}
+            onChange={handleChange}
+          />
+
+          <input
+            type="text"
+            name="location"
+            placeholder="Location"
+            value={form.location}
+            onChange={handleChange}
+          />
+
+          <input
+            type="number"
+            name="price"
+            placeholder="Price"
+            value={form.price}
+            onChange={handleChange}
+          />
+
+          <input
+            type="number"
+            step="0.1"
+            name="rating"
+            placeholder="Rating"
+            value={form.rating}
+            onChange={handleChange}
+          />
+
+          <input
+            type="text"
+            name="image"
+            placeholder="Image URL"
+            value={form.image}
+            onChange={handleChange}
+          />
+
+          <button type="submit">
+            Add Homestay
+          </button>
+        </form>
 
         <div className={styles.grid}>
           {homestays.map((stay) => (
@@ -54,13 +144,40 @@ export default function Homestay() {
 
                 <div className={styles.bottom}>
                   <span>₹{stay.price} / night</span>
-
                   <span>⭐ {stay.rating}</span>
                 </div>
 
-                <button>
-                  View Details
-                </button>
+              <div style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
+  <button
+  onClick={async () => {
+    const newPrice = prompt("Enter new price:", stay.price);
+
+    if (!newPrice) return;
+
+    await updateHomestay(stay.id, {
+      name: stay.name,
+      location: stay.location,
+      price: Number(newPrice),
+      rating: stay.rating,
+      image: stay.image,
+    });
+
+    fetchHomestays();
+  }}
+>
+  Update
+</button>
+
+  <button
+    onClick={async () => {
+      await deleteHomestay(stay.id);
+
+      fetchHomestays();
+    }}
+  >
+    Delete
+  </button>
+</div>  
               </div>
             </div>
           ))}

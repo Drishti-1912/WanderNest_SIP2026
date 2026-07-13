@@ -34,3 +34,35 @@ export async function getHomestay(id) {
   const response = await fetch(`${BASE_URL}/homestays/${id}`);
   return response.json();
 }
+
+export async function addHomestay(data) {
+  const response = await fetch(`${BASE_URL}/homestays`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+
+  return response.json();
+}
+
+export async function updateHomestay(id, data) {
+  const response = await fetch(`${BASE_URL}/homestays/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+
+  return response.json();
+}
+
+export async function deleteHomestay(id) {
+  const response = await fetch(`${BASE_URL}/homestays/${id}`, {
+    method: "DELETE",
+  });
+
+  return response.json();
+}
