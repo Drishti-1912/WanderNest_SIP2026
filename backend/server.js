@@ -1,12 +1,15 @@
 const express = require("express");
 const cors = require("cors");
 const session = require("express-session");
+
 require("dotenv").config();
 
 const passport = require("./config/passport");
 
 const homestayRoutes = require("./routes/homestayRoutes");
 const authRoutes = require("./routes/authRoutes");
+const aiRoutes = require("./routes/aiRoutes");
+
 const errorHandler = require("./middleware/errorHandler");
 
 const app = express();
@@ -35,6 +38,7 @@ app.use(passport.session());
 // Routes
 app.use("/api/homestays", homestayRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/ai", aiRoutes);
 
 app.get("/", (req, res) => {
   res.send("WanderNest Backend Running 🚀");
