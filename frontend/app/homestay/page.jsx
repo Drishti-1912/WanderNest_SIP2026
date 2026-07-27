@@ -16,6 +16,8 @@ import {
 
 export default function Homestay() {
   const [homestays, setHomestays] = useState([]);
+const [loading, setLoading] = useState(true);
+const [error, setError] = useState("");
 
   const [form, setForm] = useState({
     name: "",
@@ -25,10 +27,21 @@ export default function Homestay() {
     image: "",
   });
 
-  const fetchHomestays = async () => {
+ const fetchHomestays = async () => {
+  try {
+    setLoading(true);
+
     const data = await getHomestays();
+
     setHomestays(data);
-  };
+    setError("");
+  } catch (err) {
+    console.error(err);
+    setError("Failed to load homestays.");
+  } finally {
+    setLoading(false);
+  }
+};
 
   useEffect(() => {
   const loadData = async () => {
@@ -64,6 +77,22 @@ export default function Homestay() {
 
     fetchHomestays();
   };
+
+  if (loading) {
+  return (
+    <div style={{ padding: "40px", textAlign: "center" }}>
+      Loading Homestays...
+    </div>
+  );
+}
+
+if (error) {
+  return (
+    <div style={{ padding: "40px", color: "red", textAlign: "center" }}>
+      {error}
+    </div>
+  );
+}
 
   return (
     <div className={styles.layout}>
@@ -128,60 +157,88 @@ export default function Homestay() {
         </form>
 
         <div className={styles.grid}>
-          {homestays.map((stay) => (
-            <div
-              key={stay.id}
-              className={styles.card}
-            >
-              <div className={styles.image}>
-                {stay.image}
-              </div>
-
-              <div className={styles.body}>
-                <h2>{stay.name}</h2>
-
-                <p>{stay.location}</p>
-
-                <div className={styles.bottom}>
-                  <span>₹{stay.price} / night</span>
-                  <span>⭐ {stay.rating}</span>
-                </div>
-
-              <div style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
-  <button
-  onClick={async () => {
-    const newPrice = prompt("Enter new price:", stay.price);
-
-    if (!newPrice) return;
-
-    await updateHomestay(stay.id, {
-      name: stay.name,
-      location: stay.location,
-      price: Number(newPrice),
-      rating: stay.rating,
-      image: stay.image,
-    });
-
-    fetchHomestays();
-  }}
->
-  Update
-</button>
-
-  <button
-    onClick={async () => {
-      await deleteHomestay(stay.id);
-
-      fetchHomestays();
-    }}
-  >
-    Delete
-  </button>
-</div>  
-              </div>
-            </div>
-          ))}
+  {homestays.length === 0 ? (
+    <div
+      style={{
+        textAlign: "center",
+        width: "100%",
+        padding: "40px",
+      }}
+    >
+      <h2>No Homestays Found</h2>
+      <p>Create your first homestay.</p>
+    </div>
+  ) : (
+    homestays.map((stay) => (
+      <div
+        key={stay.id}
+        className={styles.card}
+      >
+        <div className={styles.image}>
+          {stay.image}
         </div>
+
+        <div className={styles.body}>
+          <h2>{stay.name}</h2>
+
+          <p>{stay.location}</p>
+
+          <div className={styles.bottom}>
+            <span>₹{stay.price} / night</span>
+            <span>⭐ {stay.rating}</span>
+          </div>
+
+          <div
+            style={{
+              display: "flex",
+              gap: "10px",
+              marginTop: "10px",
+            }}
+          >
+            <button
+              onClick={async () => {
+                const newPrice = prompt(
+                  "Enter new price:",
+                  stay.price
+                );
+
+                if (!newPrice) return;
+
+                await updateHomestay(stay.id, {
+                  name: stay.name,
+                  location: stay.location,
+                  price: Number(newPrice),
+                  rating: stay.rating,
+                  image: stay.image,
+                });
+
+                fetchHomestays();
+              }}
+            >
+              Update
+            </button>
+
+            <button
+              onClick={async () => {
+                const confirmDelete = window.confirm(
+                  "Are you sure you want to delete this homestay?"
+                );
+
+                if (!confirmDelete) return;
+
+                await deleteHomestay(stay.id);
+
+                fetchHomestays();
+              }}
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+      </div>
+    ))
+  )}
+</div>
       </main>
     </div>
   );

@@ -102,3 +102,52 @@
   margin-bottom: 8px;
   color: var(--text-light);
 }
+/* ================= Responsive ================= */
+
+@media (max-width: 1024px) {
+  .content {
+    padding: 25px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .content {
+    padding: 20px;
+  }
+
+  .header h1 {
+    font-size: 30px;
+  }
+
+  .form,
+  .result {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .content {
+    padding: 15px;
+  }
+
+  .header h1 {
+    font-size: 24px;
+  }
+
+  .field input,
+  .field select {
+    width: 100%;
+  }
+
+  .button {
+    width: 100%;
+  }
+}

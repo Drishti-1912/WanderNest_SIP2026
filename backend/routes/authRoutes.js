@@ -34,15 +34,36 @@ router.post(
 );
 
 // ================= PROTECTED PROFILE =================
+const prisma = require("../data/prismaClient");
+
+// ================= PROTECTED PROFILE =================
 router.get(
   "/profile",
   verifyToken,
   async (req, res) => {
-    res.status(200).json({
-      success: true,
-      message: "Protected Route Accessed Successfully",
-      user: req.user,
-    });
+    try {
+      const user = await prisma.user.findUnique({
+        where: {
+          id: req.user.id,
+        },
+        select: {
+          id: true,
+          name: true,
+          email: true,
+        },
+      });
+
+      res.status(200).json({
+        success: true,
+        message: "Profile fetched successfully",
+        user,
+      });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: "Server Error",
+      });
+    }
   }
 );
 

@@ -1,13 +1,67 @@
 "use client";
 
+import { useState } from "react";
+
 import styles from "./page.module.css";
 
 import Sidebar from "../../components/layout/Sidebar";
 import Topbar from "../../components/layout/Topbar";
-
 import Button from "../../components/ui/Button";
 
+import { generateItinerary } from "../../services/api";
+
 export default function AIPlanner() {
+  const [form, setForm] = useState({
+    destination: "",
+    days: "2",
+    budget: "₹5,000 - ₹10,000",
+    interests: "",
+    travelStyle: "Adventure",
+  });
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [result, setResult] = useState("");
+
+  const handleChange = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleGenerate = async () => {
+    if (
+      !form.destination ||
+      !form.days ||
+      !form.budget ||
+      !form.interests ||
+      !form.travelStyle
+    ) {
+      alert("Please fill all fields.");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      setError("");
+      setResult("");
+
+      const response = await generateItinerary(form);
+      console.log(response);
+      if (response.success) {
+        setResult(response.itinerary);
+      } else {
+        setError(response.message);
+      }
+    } catch (err) {
+      console.error(err);
+      setError("Failed to generate itinerary.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className={styles.layout}>
       <Sidebar />
@@ -26,15 +80,24 @@ export default function AIPlanner() {
           <div className={styles.grid}>
             <div className={styles.field}>
               <label>Destination</label>
+
               <input
                 type="text"
+                name="destination"
+                value={form.destination}
+                onChange={handleChange}
                 placeholder="e.g. Kasol"
               />
             </div>
 
             <div className={styles.field}>
               <label>Budget</label>
-              <select>
+
+              <select
+                name="budget"
+                value={form.budget}
+                onChange={handleChange}
+              >
                 <option>₹5,000 - ₹10,000</option>
                 <option>₹10,000 - ₹20,000</option>
                 <option>₹20,000+</option>
@@ -43,62 +106,113 @@ export default function AIPlanner() {
 
             <div className={styles.field}>
               <label>Duration</label>
-              <select>
-                <option>2 Days</option>
-                <option>3 Days</option>
-                <option>5 Days</option>
+
+              <select
+                name="days"
+                value={form.days}
+                onChange={handleChange}
+              >
+                <option value="2">2 Days</option>
+                <option value="3">3 Days</option>
+                <option value="5">5 Days</option>
               </select>
             </div>
 
             <div className={styles.field}>
               <label>Travel Style</label>
-              <select>
+
+              <select
+                name="travelStyle"
+                value={form.travelStyle}
+                onChange={handleChange}
+              >
                 <option>Adventure</option>
                 <option>Relaxation</option>
                 <option>Nature</option>
                 <option>Photography</option>
               </select>
             </div>
+
+            <div className={styles.field}>
+              <label>Interests</label>
+
+              <input
+                type="text"
+                name="interests"
+                value={form.interests}
+                onChange={handleChange}
+                placeholder="Trekking, Cafes, Nature"
+              />
+            </div>
           </div>
 
           <div className={styles.button}>
-            <Button text="Generate AI Itinerary" />
+            <Button
+              text={loading ? "Generating..." : "Generate AI Itinerary"}
+              onClick={handleGenerate}
+            />
           </div>
         </div>
 
-        <div className={styles.result}>
-          <h2>Suggested Itinerary</h2>
-
-          <div className={styles.dayCard}>
-            <h3>Day 1</h3>
-
-            <ul>
-              <li>Arrival & Check-in</li>
-              <li>Visit Local Market</li>
-              <li>Sunset Point</li>
-            </ul>
+        {error && (
+          <div style={{ color: "red", marginTop: "20px" }}>
+            {error}
           </div>
+        )}
 
-          <div className={styles.dayCard}>
-            <h3>Day 2</h3>
+        {result && (
+  <div className={styles.result}>
+    <h2>{result.tripTitle}</h2>
 
-            <ul>
-              <li>Trek to Kheerganga</li>
-              <li>Camping</li>
-              <li>Bonfire</li>
-            </ul>
-          </div>
+    <div className={styles.dayCard}>
+      <h3>Itinerary</h3>
 
-          <div className={styles.dayCard}>
-            <h3>Day 3</h3>
+      {result.itinerary?.map((day, index) => (
+  <div
+    key={index}
+    style={{
+      marginBottom: "20px",
+      padding: "15px",
+      border: "1px solid #ddd",
+      borderRadius: "8px",
+    }}
+  >
+    <h4>{day.day}</h4>
 
-            <ul>
-              <li>Explore Cafes</li>
-              <li>Shopping</li>
-              <li>Return Journey</li>
-            </ul>
-          </div>
-        </div>
+    <ul>
+      {day.activities?.map((activity, i) => (
+        <li key={i}>{activity}</li>
+      ))}
+    </ul>
+  </div>
+))}
+
+      <h3>Budget Estimate</h3>
+      <p>{result.budgetEstimate}</p>
+
+      <h3>Packing Tips</h3>
+      <ul>
+        {result.packingTips?.map((tip, index) => (
+          <li key={index}>{tip}</li>
+        ))}
+      </ul>
+
+      <h3>Local Food</h3>
+      <ul>
+        {result.localFood?.map((food, index) => (
+          <li key={index}>{food}</li>
+        ))}
+      </ul>
+
+      <h3>Travel Tips</h3>
+      <ul>
+        {result.travelTips?.map((tip, index) => (
+          <li key={index}>{tip}</li>
+        ))}
+      </ul>
+    </div>
+  </div>
+)}
       </main>
     </div>
   );

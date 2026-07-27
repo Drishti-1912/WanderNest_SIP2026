@@ -66,3 +66,14 @@ export async function deleteHomestay(id) {
 
   return response.json();
 }
+export async function generateItinerary(data) {
+  const response = await fetch(`${BASE_URL}/ai/itinerary`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+
+  return response.json();
+}

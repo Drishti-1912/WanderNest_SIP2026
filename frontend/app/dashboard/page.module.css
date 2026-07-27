@@ -37,3 +37,43 @@
   color: var(--text);
   margin: 35px 0 20px;
 }
+
+/* ================= Responsive ================= */
+
+@media (max-width: 1024px) {
+  .content {
+    padding: 25px;
+  }
+
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .actions {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .content {
+    padding: 20px;
+  }
+
+  .stats {
+    grid-template-columns: 1fr;
+  }
+
+  .sectionTitle {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .content {
+    padding: 15px;
+  }
+
+  .actions {
+    grid-template-columns: 1fr;
+  }
+}
