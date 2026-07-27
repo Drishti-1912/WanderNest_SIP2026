@@ -179,12 +179,29 @@ GET /api/homestays/search?location=Kasol
 
 # ✅ Features
 
-- RESTful CRUD APIs
-- PostgreSQL database integration
-- Prisma ORM
+### Authentication
+- JWT-based user authentication
+- Google OAuth login
+- Protected dashboard routes
+
+### Homestays
+- Create, Read, Update and Delete (CRUD)
 - Search homestays by location
-- Error handling
-- Modular backend architecture
+- Real-time updates using REST APIs
+
+### AI Travel Planner
+- AI-generated travel itineraries using Google Gemini
+- Custom trip generation based on destination, budget, duration, interests and travel style
+
+### Dashboard
+- Authenticated user dashboard
+- Dynamic homestay statistics
+- Loading, error and empty states
+
+### Backend
+- RESTful API with Express.js
+- PostgreSQL database with Prisma ORM
+- Modular architecture with controllers, routes and services
 
 ---
 
