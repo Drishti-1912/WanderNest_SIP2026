@@ -9,7 +9,7 @@
 //   const response = await fetch(`${BASE_URL}/homestays/${id}`);
 //   return response.json();
 // }
-const BASE_URL = "http://localhost:5000/api";
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export async function getHomestays() {
   try {
