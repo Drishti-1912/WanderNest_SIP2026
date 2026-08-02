@@ -210,6 +210,51 @@ GET /api/homestays/search?location=Kasol
 Frontend and CRUD screenshots are included in the Week 5 submission.
 
 ---
+# 🌐 Live Deployment
+
+## Frontend
+https://wander-nest-sip-2026-hdzx.vercel.app/
+
+## Backend
+https://wandernest-zmj1.onrender.com/
+
+---
+
+# 🚀 Tech Stack
+
+### Frontend
+- Next.js
+- React.js
+- JavaScript
+- CSS Modules
+
+### Backend
+- Node.js
+- Express.js
+
+### Database
+- PostgreSQL (Supabase)
+- Prisma ORM
+
+### Authentication
+- JWT Authentication
+- Google OAuth
+
+### AI
+- Google Gemini API
+
+### Deployment
+- Frontend: Vercel
+- Backend: Render
+
+---
+
+# ⚠ Known Limitations (Free Tier)
+
+- Render free web service spins down after approximately 15 minutes of inactivity.
+- The first request after inactivity may take up to 30–60 seconds while the backend wakes up.
+- OAuth configuration and production authentication are under final testing.
+---
 
 # 👩‍💻 Author
 
