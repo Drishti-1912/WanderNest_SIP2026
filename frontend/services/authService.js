@@ -1,7 +1,7 @@
-const API_URL = "http://localhost:5000/api/auth";
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export const registerUser = async (userData) => {
-  const response = await fetch(`${API_URL}/register`, {
+  const response = await fetch(`${BASE_URL}/auth/register`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -13,7 +13,7 @@ export const registerUser = async (userData) => {
 };
 
 export const loginUser = async (credentials) => {
-  const response = await fetch(`${API_URL}/login`, {
+  const response = await fetch(`${BASE_URL}/auth/login`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -27,7 +27,7 @@ export const loginUser = async (credentials) => {
 export const getProfile = async () => {
   const token = localStorage.getItem("token");
 
-  const response = await fetch(`${API_URL}/profile`, {
+  const response = await fetch(`${BASE_URL}/auth/profile`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
